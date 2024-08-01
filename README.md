@@ -224,6 +224,31 @@ module.exports = defineConfig({
 
 ```
 </details>
+<details>
+<summary><h2>Uso:</h2></summary>
+
+Una vez configurado, puedes ejecutar tus pruebas de Cypress como de costumbre, y cypress-mochawesome-reporter generará los informes automáticamente.
+
+Para ejecutar tus pruebas y generar el informe, simplemente usa el comando de ejecución de Cypress.
+
+Los informes se generarán en el directorio especificado (cypress/reports en el ejemplo de configuración anterior).
+
+> [!NOTA]
+> El parametro __**`reportFilename:`[name].html`,`**__ nos permite generar el reporte con el nombre del la suite que estamos corriendo
+
+
+> [!NOTA]
+> El parametro __**`timestamp: 'mm-dd-yyyy_HH-MM-ss'`**__ nos permite agregarle al reporte la fecha y la hora de ejecución.
+
+</details>
+<details>
+<summary><h2>Visualizacion del reporte</h2></summary>
+
+Después de ejecutar las pruebas, puedes abrir el archivo HTML generado para visualizar el informe:
+
+Navega al directorio del informe (cypress/reports).
+Abre el archivo HTML generado (mochawesome.html) en tu navegador.
+</details>
 </details>
 
 
