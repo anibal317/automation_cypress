@@ -24,6 +24,7 @@ import chaiColors from 'chai-colors';
 // Usa chai-colors
 chai.use(chaiColors);
 ```
+</details>
 <details>
 <summary><h2>Aplicación:</h2></summary>
 Uso en Pruebas
@@ -91,8 +92,6 @@ describe('Verificar colores CSS', () => {
   });
 });
 ```
-</details>
-
 </details>
 </details>
 
