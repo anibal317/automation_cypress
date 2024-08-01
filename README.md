@@ -240,6 +240,18 @@ Los informes se generarán en el directorio especificado (cypress/reports en el 
 > [!NOTA]
 > El parametro __**`timestamp: 'mm-dd-yyyy_HH-MM-ss'`**__ nos permite agregarle al reporte la fecha y la hora de ejecución.
 
+> [!TIP]
+> Helpful advice for doing things better or more easily.
+
+> [!IMPORTANT]
+> Key information users need to know to achieve their goal.
+
+> [!WARNING]
+> Urgent info that needs immediate user attention to avoid problems.
+
+> [!CAUTION]
+> Advises about risks or negative outcomes of certain actions.
+
 </details>
 <details>
 <summary><h2>Visualizacion del reporte</h2></summary>
