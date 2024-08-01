@@ -4,12 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cypress open"
+    "test": "cypress open",
+    "tags":"cypress run --env grepTags=\"General\"",
+    "name":"cypress run --env grep=\"General\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@cypress/grep": "^4.1.0",
     "chai-colors": "^1.0.1",
     "chai-json-schema": "^1.5.1",
     "cypress": "^13.12.0",

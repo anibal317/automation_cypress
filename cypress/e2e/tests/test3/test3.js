@@ -1,8 +1,8 @@
 /// <reference types="cypress"/>
 describe('', () => {
-    it('General Test', {
-        tags: 't0'
+    it('Test 3', {
+        tags: 't3'
     }, () => {
-        cy.log('General Test')
+        cy.log('Test #3')
     });
 });

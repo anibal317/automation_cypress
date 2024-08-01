@@ -27,8 +27,11 @@ Cypress.on('uncaught:exception', (err, runnable, promise) => {
 })
 import 'cypress-mochawesome-reporter/register';
 import "cypress-real-events";
+
 import chaiColors from 'chai-colors'
 chai.use(chaiColors)
 
+const registerCypressGrep = require('@cypress/grep')
+registerCypressGrep()
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
