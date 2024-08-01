@@ -233,24 +233,12 @@ Para ejecutar tus pruebas y generar el informe, simplemente usa el comando de ej
 
 Los informes se generarán en el directorio especificado (cypress/reports en el ejemplo de configuración anterior).
 
-> [!NOTA]
-> El parametro __**`reportFilename:`[name].html`,`**__ nos permite generar el reporte con el nombre del la suite que estamos corriendo
+> [!NOTA] El parametro __**`reportFilename:`[name].html`,`**__ nos permite generar el reporte con el nombre del la suite que estamos corriendo
 
 
-> [!NOTA]
-> El parametro __**`timestamp: 'mm-dd-yyyy_HH-MM-ss'`**__ nos permite agregarle al reporte la fecha y la hora de ejecución.
+> [!NOTA]  El parametro __**`timestamp: 'mm-dd-yyyy_HH-MM-ss'`**__ nos permite agregarle al reporte la fecha y la hora de ejecución.
 
-> [!TIP]
-> Helpful advice for doing things better or more easily.
 
-> [!IMPORTANT]
-> Key information users need to know to achieve their goal.
-
-> [!WARNING]
-> Urgent info that needs immediate user attention to avoid problems.
-
-> [!CAUTION]
-> Advises about risks or negative outcomes of certain actions.
 
 </details>
 <details>
