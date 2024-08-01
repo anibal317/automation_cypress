@@ -1,7 +1,9 @@
 # Automatización de casos de prueba con Cypress
 
+<details>
+<summary><h2>Configurar Cypress Grep:</h2></summary>
 
-# Configurar Cypress Grep
+# Instalar la librería
 ```bash
 npm i @cypress/grep
 ```
@@ -23,7 +25,7 @@ registerCypressGrep()
 }
 ```
 <details>
-<summary><h1>Correr casos de prueba usando Cypress Grep:</h1></summary>
+<summary><h2>Correr casos de prueba usando Cypress Grep:</h2></summary>
 
 #### 1- Correr solamente los casos de prueba con"auth user" en el título
 ```
@@ -53,4 +55,5 @@ $ npx cypress run --env grepTags=@smoke,grepFilterSpecs=true
 ```
 $ npx cypress run --env grepUntagged=true
 ```
+</details>
 </details>
