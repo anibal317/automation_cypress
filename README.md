@@ -233,7 +233,8 @@ Para ejecutar tus pruebas y generar el informe, simplemente usa el comando de ej
 
 Los informes se generarán en el directorio especificado (cypress/reports en el ejemplo de configuración anterior).
 
-> [!NOTA] El parametro __**`reportFilename:`[name].html`,`**__ nos permite generar el reporte con el nombre del la suite que estamos corriendo
+> [!NOTA]
+>El parametro __**`reportFilename:'[name].html',`**__ nos permite generar el reporte con el nombre del la suite que estamos corriendo
 
 
 > [!NOTA]  El parametro __**`timestamp: 'mm-dd-yyyy_HH-MM-ss'`**__ nos permite agregarle al reporte la fecha y la hora de ejecución.
@@ -251,6 +252,99 @@ Abre el archivo HTML generado (mochawesome.html) en tu navegador.
 </details>
 </details>
 
+<details>
+<summary><h1>Chai Json Schema</h1></summary>
+
+# ¿Qué es Chai Json Schema?
+La librería __**`chai-json-schema`**__ permite extender las capacidades del motor de aserciones Chai para validar objetos JSON contra esquemas JSON. Es especialmente útil cuando necesitas asegurarte de que las estructuras de datos JSON recibidas o generadas en tus pruebas cumplen con un formato específico.
+
+## Características Principales
+1. Validación de Esquemas: 
+    - Permite validar que un objeto JSON cumple con un esquema JSON definido.
+2. Aserciones Declarativas: 
+    - Proporciona aserciones claras y legibles para validar estructuras de datos.
+3. Integración con Chai: 
+    - Se integra perfectamente con Chai, el motor de aserciones utilizado en Cypress y otros frameworks de pruebas.
+
+<details>
+<summary><h2>Instalar la librería</h2></summary>
+
+```bash
+npm install chai-json-schema
+```
+
+## Agregar esta configuracion en cypress.config.js
+```
+// Importa chai-json-schema
+import chaiJsonSchema from 'chai-json-schema';
+
+// Usa chai-json-schema
+chai.use(chaiJsonSchema);
+```
+
+</details>
+<details>
+<summary><h2>Uso:</h2></summary>
+
+Una vez configurado, puedes usar las aserciones de chai-json-schema en tus pruebas de Cypress. Aquí hay algunos ejemplos de cómo hacer aserciones utilizando esquemas JSON.
+
+Definir un Esquema JSON
+Primero, define el esquema JSON contra el cual deseas validar tus objetos JSON:
+```
+const userSchema = {
+  title: 'User Schema',
+  type: 'object',
+  required: ['id', 'name', 'email'],
+  properties: {
+    id: {
+      type: 'integer'
+    },
+    name: {
+      type: 'string'
+    },
+    email: {
+      type: 'string',
+      format: 'email'
+    }
+  }
+};
+
+```
+Ejemplo de Prueba con Cypress y chai-json-schema
+Aquí hay un ejemplo de cómo usar chai-json-schema en una prueba de Cypress para validar una respuesta de una API:
+```
+describe('API Testing with JSON Schema Validation', () => {
+  it('should validate the response against the user schema', () => {
+    cy.request('GET', 'https://api.example.com/users/1').then(response => {
+      // Validar que el estado de la respuesta sea 200
+      expect(response.status).to.equal(200);
+
+      // Validar que el cuerpo de la respuesta cumpla con el esquema definido
+      expect(response.body).to.be.jsonSchema(userSchema);
+    });
+  });
+});
+
+```
+Ejemplo de Validación de Datos JSON
+Si tienes un objeto JSON y deseas validarlo contra un esquema JSON, puedes hacerlo de la siguiente manera:
+```
+const userData = {
+  id: 1,
+  name: 'John Doe',
+  email: 'john.doe@example.com'
+};
+
+// Validar que el objeto JSON cumple con el esquema
+expect(userData).to.be.jsonSchema(userSchema);
+
+```
+Métodos Disponibles
+chai-json-schema proporciona el método principal jsonSchema para realizar las validaciones:
+
+to.be.jsonSchema(schema): Valida que el objeto JSON cumple con el esquema especificado.
+</details>
+</details>
 
 </details>
 </details>

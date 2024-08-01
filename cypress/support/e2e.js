@@ -33,5 +33,12 @@ chai.use(chaiColors)
 
 const registerCypressGrep = require('@cypress/grep')
 registerCypressGrep()
+
+// Importa chai-json-schema
+import chaiJsonSchema from 'chai-json-schema';
+
+// Usa chai-json-schema
+chai.use(chaiJsonSchema);
+
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
