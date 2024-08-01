@@ -95,23 +95,19 @@ describe('Verificar colores CSS', () => {
 </details>
 </details>
 
-
-
-
-
-
-
-
 <details>
 <summary><h1>Cypress Grep:</h1></summary>
 
 # ¿Qué es Cypress Grep?
-La librería cypress-grep permite ejecutar subconjuntos específicos de tus pruebas de Cypress basándose en etiquetas (tags) o patrones de búsqueda. Esto es útil para filtrar y ejecutar únicamente las pruebas que cumplen ciertos criterios, como parte de un enfoque de pruebas más eficiente y controlado.
+La librería __*`cypress-grep`*__ permite ejecutar subconjuntos específicos de tus pruebas de Cypress basándose en etiquetas (**_`tags`_**) o patrones de búsqueda. Esto es útil para filtrar y ejecutar únicamente las pruebas que cumplen ciertos criterios, como parte de un enfoque de pruebas más eficiente y controlado.
 
-Características Principales
-Etiquetado de Pruebas: Puedes etiquetar tus pruebas con cadenas específicas y luego ejecutar solo aquellas pruebas que contengan esas etiquetas.
-Filtrado por Patrones de Búsqueda: Puedes ejecutar pruebas que coincidan con ciertos patrones de texto en el título de la prueba.
-Ejecución de Pruebas Seleccionadas: Facilita la ejecución de un subconjunto de pruebas, lo cual es útil para depuración, desarrollo continuo y ejecución de suites de pruebas específicas.
+## Características Principales
+1. Etiquetado de Pruebas: 
+   - Puedes etiquetar tus pruebas con cadenas específicas y luego ejecutar solo aquellas pruebas que contengan esas etiquetas.
+2. Filtrado por Patrones de Búsqueda: 
+    - Puedes ejecutar pruebas que coincidan con ciertos patrones de texto en el título de la prueba.
+3. Ejecución de Pruebas Seleccionadas: 
+    - Facilita la ejecución de un subconjunto de pruebas, lo cual es útil para depuración, desarrollo continuo y ejecución de suites de pruebas específicas.
 
 <details>
 <summary><h2>Instalar la librería</h2></summary>
@@ -141,33 +137,95 @@ registerCypressGrep()
 <details>
 <summary><h2>Correr casos de prueba usando Cypress Grep:</h2></summary>
 
-#### 1- Correr solamente los casos de prueba con"auth user" en el título
+#### 1. Correr solamente los casos de prueba con"auth user" en el título
 ```
 $ cypress run --env grep="auth user"
 ```
-#### 2- Correr los casos de prueba con "hello" ó "auth user" en el titulo del test separandolos con ";"
+#### 2. Correr los casos de prueba con "hello" ó "auth user" en el titulo del test separandolos con ";"
 ```
 $ npx cypress run --env grep="hello; auth user"
 ```
-##### 3- Correr casos de prueba taggeados con @fast
+#### 3. Correr casos de prueba taggeados con @fast
 ```
 $ npx cypress run --env grepTags=@fast
 ```
-#### 4- Correr solamente los casos de prueba taggeados con "smoke" que tengan "login" en sus títulos
+#### 4. Correr solamente los casos de prueba taggeados con "smoke" que tengan "login" en sus títulos
 ```
 $ npx cypress run --env grep=login,grepTags=smoke
 ```
-#### 5- Correr solamente specs que tengan cualquier caso de prueba con "user" en sus títulos
+#### 5. Correr solamente specs que tengan cualquier caso de prueba con "user" en sus títulos
 ```
 $ npx cypress run --env grep=user,grepFilterSpecs=true
 ```
-#### 6- Correr solamente specs que tangan cualquier caso de prueba taggeado con "@smoke"
+#### 6. Correr solamente specs que tangan cualquier caso de prueba taggeado con "@smoke"
 ```
 $ npx cypress run --env grepTags=@smoke,grepFilterSpecs=true
 ```
-#### 7- Correr solamente los casos de prueba que no tengan los tags y casos de prueba que no esten en suites taggeadas
+#### 7. Correr solamente los casos de prueba que no tengan los tags y casos de prueba que no esten en suites taggeadas
 ```
 $ npx cypress run --env grepUntagged=true
 ```
+
+</details>
+</details>
+
+<details>
+<summary><h1>Cypress Mochawesome Reporter</h1></summary>
+
+# ¿Qué es Cypress Mochawesome Reporter?
+La librería __**`cypress-mochawesome-reporter`**__ es una herramienta de reportería para Cypress que proporciona informes detallados y visualmente atractivos de las pruebas ejecutadas. Este reporter se basa en Mochawesome, una librería popular para generar informes de pruebas en Mocha, y está adaptado para funcionar con Cypress, que utiliza Mocha como su framework de pruebas subyacente.
+
+## Características Principales:
+1. Informes Detallados: 
+    - Genera informes detallados que incluyen el estado de cada prueba, tiempo de ejecución, mensajes de error, y capturas de pantalla.
+2. Visualmente Atractivos:
+    - Los informes son visualmente atractivos y fáciles de leer, con una interfaz de usuario limpia y organizada.
+3. Informes HTML y JSON: 
+    - Genera informes en formato HTML para visualización y JSON para análisis automatizado o procesamiento adicional.
+4. Integración con Cypress: 
+    - Se integra fácilmente con Cypress, aprovechando las capacidades de reportería de Mocha.
+<details>
+<summary><h2>Instalar la librería</h2></summary>
+
+```bash
+npm install --save-dev cypress-mochawesome-reporter
+```
+
+## Agregar esta configuración en cypress/support/e2e.js
+```
+import 'cypress-mochawesome-reporter/register';
+```
+## Agregar esta configuracion en cypress.config.js
+```
+const { defineConfig } = require('cypress');
+
+module.exports = defineConfig({
+  e2e: {
+    setupNodeEvents(on, config) {
+      require('cypress-mochawesome-reporter/plugin')(on);
+      return config;
+    },
+    reporter: 'cypress-mochawesome-reporter',
+    reporterOptions: {
+      charts: true,
+      reportPageTitle: 'AMP QA Regression Testing',
+      embeddedScreenshots: true,
+      inlineAssets: true,
+      saveAllAttempts: false,
+      reportDir:"cypress/reports",
+      overwrite:false,
+      reportFilename:`[name].html`,
+      html:true,
+      json:false,
+      timestamp: 'mm-dd-yyyy_HH-MM-ss'
+    }
+  }
+});
+
+```
+</details>
+</details>
+
+
 </details>
 </details>
