@@ -1,9 +1,21 @@
 # Automatización de casos de prueba con Cypress
 
-<details>
-<summary><h2>Configurar Cypress Grep:</h2></summary>
 
-# Instalar la librería
+<details>
+  <summary><h1>Chai - Colors:</h1></summary>
+</details>
+
+
+
+<details>
+<summary><h1>Cypress Grep:</h1></summary>
+
+# ¿Qué es Cypress Grep?
+
+
+<details>
+<summary><h2># Instalar la librería</h2></summary>
+
 ```bash
 npm i @cypress/grep
 ```
@@ -24,6 +36,8 @@ registerCypressGrep()
   }
 }
 ```
+</details>
+
 <details>
 <summary><h2>Correr casos de prueba usando Cypress Grep:</h2></summary>
 
