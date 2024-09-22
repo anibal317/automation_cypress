@@ -1,8 +1,6 @@
 /// <reference types="cypress"/>
-describe('', () => {
-    it('General Test', {
-        tags: 't0'
-    }, () => {
-        cy.log('General Test')
+describe('Cypress Automation', () => {
+    it('Login Test', () => {
+        cy.visit(Cypress.env('loginPage'))
     });
 });

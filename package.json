@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cypress open",
-    "tags":"cypress run --env grepTags=\"General\"",
-    "name":"cypress run --env grep=\"General\""
+    "test": "cypress open"
   },
   "keywords": [],
   "author": "",
