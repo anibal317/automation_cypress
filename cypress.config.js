@@ -26,6 +26,6 @@ module.exports = defineConfig({
       require('@cypress/grep/src/plugin')(config);
       return config;
     },
-    specPattern: ['cypress/e2e/tests/**/*.{ts,js}']
+    specPattern: ['cypress/e2e/**/*.{ts,js}']
   },
 });

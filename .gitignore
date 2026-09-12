@@ -2,3 +2,5 @@ node_modules/
 1-*/
 2-*/
 *-lock.*
+.env
+*.env.*
