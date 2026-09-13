@@ -1,5 +1,12 @@
 # Automatización de casos de prueba con Cypress
 ![Alt text](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThHv0btDBl6mr8DW97fr5010H-YRX2FCyDnQ&s)
+
+## Estructura Del Proyecto (Real Vs Referencia)
+
+- Tests reales: `cypress/e2e/**/*.cy.js`.
+- Ejemplos de referencia: `cypress/e2e/reference/` (no se ejecutan en la suite real).
+- Punto único de import de POMs reales: `cypress/pomObjects.js`.
+
 <details>
   <summary><h1>Chai - Colors:</h1></summary>
 

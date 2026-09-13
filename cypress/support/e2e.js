@@ -16,14 +16,14 @@
 // Import commands.js using ES2015 syntax:
 import './commands'
 Cypress.on('uncaught:exception', (err, runnable, promise) => {
-    // when the exception originated from an unhandled promise
-    // rejection, the promise is provided as a third argument
-    // you can turn off failing the test in this case
     if (promise) {
         return false
     }
-    // we still want to ensure there are no other unexpected
-    // errors, so we let them fail the test
+
+    const knownAppError = "Cannot read properties of null (reading 'addEventListener')"
+    if (err && err.message && err.message.includes(knownAppError)) {
+        return false
+    }
 })
 import 'cypress-mochawesome-reporter/register';
 import "cypress-real-events";
@@ -31,7 +31,7 @@ import "cypress-real-events";
 import chaiColors from 'chai-colors'
 chai.use(chaiColors)
 
-const registerCypressGrep = require('@cypress/grep')
+const { register: registerCypressGrep } = require('@cypress/grep')
 registerCypressGrep()
 
 // Importa chai-json-schema

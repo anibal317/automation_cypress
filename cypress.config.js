@@ -21,11 +21,12 @@ module.exports = defineConfig({
   log: false,
   e2e: {
     setupNodeEvents(on, config) {
-      // implement node event listeners here
       require('cypress-mochawesome-reporter/plugin')(on);
-      require('@cypress/grep/src/plugin')(config);
+      const { plugin: cypressGrepPlugin } = require('@cypress/grep/plugin');
+      cypressGrepPlugin(config);
       return config;
     },
-    specPattern: ['cypress/e2e/**/*.{ts,js}']
+    specPattern: 'cypress/e2e/**/*.cy.{js,ts}',
+    excludeSpecPattern: ['cypress/e2e/reference/**/*']
   },
 });
