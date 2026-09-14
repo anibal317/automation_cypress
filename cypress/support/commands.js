@@ -68,6 +68,7 @@ Cypress.Commands.add('getSelectors', function (container) {
     });
 
 })
+
 Cypress.Commands.add('getContainerText', (container) => {
     cy.get(container).each($container => {
         console.log(`'${$container.text().trim()}',`)

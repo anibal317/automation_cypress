@@ -33,7 +33,8 @@ describe('Testing de la pagina principal', () => {
 
     // tags: '@smoke', // Opcion de @cypress/grep (plugin)
   }, () => {
-    POMs.homePage.visit();
+    const homePath = Cypress.env('urls')?.home || '/';
+    POMs.homePage.visit(homePath);
     POMs.homePage.title.should('be.visible');
     POMs.homePage.validateNavItems();
   });
