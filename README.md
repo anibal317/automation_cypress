@@ -1,6 +1,89 @@
 # Automatización de casos de prueba con Cypress
 ![Alt text](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThHv0btDBl6mr8DW97fr5010H-YRX2FCyDnQ&s)
 
+## Configuración de variables en Cypress 16
+
+En esta versión del proyecto se usa un archivo `.env` como fuente de verdad para los valores de configuración.
+
+### ¿Qué cambió en Cypress 16?
+
+- `Cypress.env()` fue removido.
+- Todas las variables se acceden con `cy.env()`.
+
+### ¿Cómo se implementa en este repo?
+
+1. Las variables se definen en `.env`.
+2. `cypress.config.js` carga `.env` usando `dotenv`.
+3. `baseUrl` se configura como propiedad nativa de Cypress.
+4. Las variables se consumen en los tests con `cy.env('NOMBRE')`.
+
+### Ejemplo del archivo `.env`
+
+```env
+BASE_URL=https://anibal317.github.io/testing-testingProject
+HOME_PATH=/index.html
+ROOT_PATH=/
+ENVIRONMENT=qa
+```
+
+### Ejemplo de `cypress.config.js`
+
+```js
+const { defineConfig } = require('cypress');
+require('dotenv').config();
+
+function requiredEnv(name) {
+  const value = process.env[name];
+
+  if (!value) {
+    throw new Error(`Missing required environment variable: ${name}`);
+  }
+
+  return value;
+}
+
+module.exports = defineConfig({
+  e2e: {
+    baseUrl: requiredEnv('BASE_URL'),
+  },
+});
+```
+
+### ¿Cómo se usan las variables en los tests?
+
+Todas las variables se leen con `cy.env()` — requiere un array de strings:
+
+```js
+// Page Object
+cy.env(['HOME_PATH']).then(({ HOME_PATH }) => {
+  cy.visit(HOME_PATH);
+});
+
+// Test directo
+cy.env(['ENVIRONMENT']).then(({ ENVIRONMENT }) => {
+  expect(ENVIRONMENT).to.equal('qa');
+});
+```
+
+### Flujo usado en este repo
+
+- `baseUrl` vive en `.env` y se carga en `cypress.config.js`.
+- `HOME_PATH` vive en `.env` y se consume con `cy.env(['HOME_PATH'])`.
+- La Page Object no hardcodea URLs.
+- El test no concatena URLs manualmente.
+
+Ejemplo en la Page Object:
+
+```js
+visit() {
+  cy.env(['HOME_PATH']).then(({ HOME_PATH }) => {
+    cy.visit(HOME_PATH);
+  });
+}
+```
+
+Como `cy.visit()` usa la `baseUrl` de Cypress, la URL final queda resuelta por la configuración y no por el test.
+
 ## Estructura Del Proyecto (Real Vs Referencia)
 
 - Tests reales: `cypress/e2e/**/*.cy.js`.

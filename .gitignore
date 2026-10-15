@@ -3,5 +3,4 @@ node_modules/
 2-*/
 *-lock.*
 .env
-*.env.*
 reports/

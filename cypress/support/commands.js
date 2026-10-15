@@ -34,7 +34,6 @@ Cypress.Commands.add('noNewTab', function () {
     });
 })
 
-
 Cypress.Commands.add('waitLoading', function (timeOut, interval) {
     cy.waitUntil(() =>
         commonElements.loadingIcon().then($el => $el.prop('hidden') === true),

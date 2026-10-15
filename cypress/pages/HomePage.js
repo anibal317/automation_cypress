@@ -1,10 +1,9 @@
 class HomePage {
-  // Abre la página indicada usando la URL base configurada.
-  // Ejemplo: visit() -> https://anibal317.github.io/testing-testingProject/
-  // Ejemplo: visit('/index.html') -> https://anibal317.github.io/testing-testingProject/index.html
-  // Si no se envía un path, usa '/' y navega a la raíz del sitio.
-  visit(path = '/') {
-    cy.visit(`${Cypress.env('baseUrl') || ''}${path}`);
+  // Abre la página Home usando la ruta configurada para esta pantalla.
+  visit() {
+    cy.env(['HOME_PATH']).then(({ HOME_PATH }) => {
+      cy.visit(HOME_PATH);
+    });
   }
 
   // Devuelve el título principal de la página.
@@ -31,7 +30,7 @@ class HomePage {
       'Products',
       'Services',
       'Video Club',
-      'Blog'
+      'Blog',
     ];
   }
 

@@ -31,11 +31,10 @@ describe('Testing de la pagina principal', () => {
     // trashAssetsBeforeRuns: true,
     // keystrokeDelay: 0,
 
-    // tags: '@smoke', // Opcion de @cypress/grep (plugin)
+    // tags: ['@smoke', '@regression'], // Opcion de @cypress/grep (plugin)
   }, () => {
-    const homePath = Cypress.env('urls')?.home || '/';
-    POMs.homePage.visit(homePath);
-    POMs.homePage.title.should('be.visible');
-    POMs.homePage.validateNavItems();
+    POMs.HomePage.visit();
+    POMs.HomePage.title.should('be.visible');
+    POMs.HomePage.validateNavItems();
   });
 });
