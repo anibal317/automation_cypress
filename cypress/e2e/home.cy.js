@@ -37,4 +37,19 @@ describe('Testing de la pagina principal', () => {
     POMs.HomePage.title.should('be.visible');
     POMs.HomePage.validateNavItems();
   });
+
+  it('El título principal tiene color negro', () => {
+    POMs.HomePage.visit();
+    POMs.HomePage.title.should('have.css', 'color').and('be.colored', '#000000');
+  });
+
+  it('El header tiene fondo gris oscuro', () => {
+    POMs.HomePage.visit();
+    cy.get('header').should('have.css', 'background-color').and('be.colored', '#333');
+  });
+
+  it('Los articles de Featured Articles tienen borde rojo', () => {
+    POMs.HomePage.visit();
+    POMs.HomePage.articles.should('have.css', 'border-color').and('be.colored', '#d72626');
+  });
 });

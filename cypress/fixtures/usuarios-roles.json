@@ -1,0 +1,7 @@
+{
+  "usuarios": [
+    { "email": "ana@test.com", "rol": "admin" },
+    { "email": "bruno@test.com", "rol": "editor" },
+    { "email": "carla@test.com", "rol": "viewer" }
+  ]
+}

@@ -206,53 +206,68 @@ npm i @cypress/grep
 ```
 
 ## Agregar esta configuración en cypress/support/e2e.js
-```
+
+> **Importante:** `registerCypressGrep()` debe ser lo **primero** en el archivo, antes de cualquier otro plugin.
+
+```js
+// cypress/support/e2e.js
 const registerCypressGrep = require('@cypress/grep')
 registerCypressGrep()
+
+// Resto de la configuración...
 ```
 ## Agregar esta configuracion en cypress.config.js
-```
-{
+
+> **Importante (Cypress 16):** `@cypress/grep` 7.x ya no exporta `plugin`. El filtro se hace con `registerCypressGrep()` en `e2e.js` leyendo `config.expose`. Es necesario copiar `process.env` a `config.expose` en `setupNodeEvents`.
+
+```js
+// cypress.config.js
+const { defineConfig } = require('cypress');
+
+module.exports = defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
-      require('@cypress/grep/src/plugin')(config);
+      // Puente: pasa process.env a expose para que grep pueda leer las variables
+      config.expose = { ...config.expose, ...process.env };
       return config;
     },
-  }
-}
+  },
+});
 ```
 </details>
 
 <details>
 <summary><h2>Correr casos de prueba usando Cypress Grep:</h2></summary>
 
-#### 1. Correr solamente los casos de prueba con"auth user" en el título
+> **Importante (Cypress 16):** Los comandos usan `--expose`, no `--env`. En Cypress 16, `@cypress/grep` lee de `config.expose`, no de `config.env`.
+
+#### 1. Correr casos de prueba con "auth user" en el título
 ```
-$ cypress run --env grep="auth user"
+$ npx cypress run --expose grep="auth user"
 ```
-#### 2. Correr los casos de prueba con "hello" ó "auth user" en el titulo del test separandolos con ";"
+#### 2. Correr casos de prueba con "hello" ó "auth user" en el título (separados con ";")
 ```
-$ npx cypress run --env grep="hello; auth user"
+$ npx cypress run --expose grep="hello; auth user"
 ```
-#### 3. Correr casos de prueba taggeados con @fast
+#### 3. Correr casos de prueba etiquetados con @fast
 ```
-$ npx cypress run --env grepTags=@fast
+$ npx cypress run --expose grepTags=@fast
 ```
-#### 4. Correr solamente los casos de prueba taggeados con "smoke" que tengan "login" en sus títulos
+#### 4. Correr casos de prueba etiquetados con "smoke" que tengan "login" en sus títulos
 ```
-$ npx cypress run --env grep=login,grepTags=smoke
+$ npx cypress run --expose grep=login,grepTags=smoke
 ```
-#### 5. Correr solamente specs que tengan cualquier caso de prueba con "user" en sus títulos
+#### 5. Correr solo specs que tengan casos de prueba con "user" en sus títulos
 ```
-$ npx cypress run --env grep=user,grepFilterSpecs=true
+$ npx cypress run --expose grep=user,grepFilterSpecs=true
 ```
-#### 6. Correr solamente specs que tangan cualquier caso de prueba taggeado con "@smoke"
+#### 6. Correr solo specs que tengan casos de prueba etiquetados con "@smoke"
 ```
-$ npx cypress run --env grepTags=@smoke,grepFilterSpecs=true
+$ npx cypress run --expose grepTags=@smoke,grepFilterSpecs=true
 ```
-#### 7. Correr solamente los casos de prueba que no tengan los tags y casos de prueba que no esten en suites taggeadas
+#### 7. Correr casos de prueba que no tengan tags
 ```
-$ npx cypress run --env grepUntagged=true
+$ npx cypress run --expose grepUntagged=true
 ```
 
 </details>

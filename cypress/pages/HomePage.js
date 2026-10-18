@@ -21,6 +21,11 @@ class HomePage {
     return cy.get('nav a');
   }
 
+  // Devuelve los articles de Featured Articles.
+  get articles() {
+    return cy.get('.article-grid article');
+  }
+
   // Lista de textos esperados en la barra de navegación.
   get navItems() {
     return [
@@ -30,14 +35,27 @@ class HomePage {
       'Products',
       'Services',
       'Video Club',
+      'Tabs',
       'Blog',
+      'Table',
     ];
   }
 
-  // Verifica que cada item del nav esté visible y con el texto correcto.
+  // Verifica orden, texto y visibilidad de cada item del nav.
+  // - Orden: compara el link de cada posicion contra navItems[index].
+  // - Texto: cada link debe contener el texto esperado.
+  // - Visibilidad: cada link debe estar visible.
   validateNavItems() {
-    this.navItems.forEach((item) => {
-      this.navLinks.contains(item).should('be.visible').and('contain.text', item);
+    const expected = this.navItems;
+
+    // Primero valida que la cantidad de links coincida con lo esperado.
+    this.navLinks.should('have.length', expected.length);
+
+    // Luego recorre cada link comparando posicion, texto y visibilidad.
+    this.navLinks.each(($link, index) => {
+      cy.wrap($link)
+        .should('be.visible')
+        .and('contain.text', expected[index]);
     });
   }
 }

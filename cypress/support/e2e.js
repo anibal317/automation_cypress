@@ -15,6 +15,11 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands'
+
+// Registrar Cypress Grep primero, antes de cualquier otro plugin
+const { register: registerCypressGrep } = require('@cypress/grep')
+registerCypressGrep()
+
 Cypress.on('uncaught:exception', (err, runnable, promise) => {
     if (promise) {
         return false
@@ -30,9 +35,6 @@ import "cypress-real-events";
 
 import chaiColors from 'chai-colors'
 chai.use(chaiColors)
-
-const { register: registerCypressGrep } = require('@cypress/grep')
-registerCypressGrep()
 
 // Importa chai-json-schema
 import chaiJsonSchema from 'chai-json-schema';
