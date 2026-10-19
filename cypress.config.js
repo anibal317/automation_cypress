@@ -23,8 +23,8 @@ module.exports = defineConfig({
     overwrite: false,
     reportFilename: `[name].html`,
     html: true,
-    json: false,
-    timestamp: "mm-dd-yyyy_HH-MM-ss",
+    json: true,
+    timestamp: 'mm-dd-yyyy_HH-MM-ss'
   },
   chromeWebSecurity: false,
   defaultCommandTimeout: 8000,

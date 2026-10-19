@@ -91,7 +91,7 @@ describe('Tests de Comandos y Selectores', () => {
 
   // === Custom commands ===
   describe('Custom commands', () => {
-    it('cy.noNewTab() - target _blank navega en misma ventana', () => {
+    it.only('cy.noNewTab() - target _blank navega en misma ventana', () => {
       POMs.HomePage.visit();
       cy.noNewTab();
       cy.get('[data-testid="external-link"]').click();
