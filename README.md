@@ -14,8 +14,9 @@ En esta versión del proyecto se usa un archivo `.env` como fuente de verdad par
 
 1. Las variables se definen en `.env`.
 2. `cypress.config.js` carga `.env` usando `dotenv`.
-3. `baseUrl` se configura como propiedad nativa de Cypress.
-4. Las variables se consumen en los tests con `cy.env('NOMBRE')`.
+3. En `setupNodeEvents` se copian a `config.env` (puente a `process.env`).
+4. `baseUrl` se configura como propiedad nativa de Cypress.
+5. Las variables se consumen en los tests con `cy.env(['NOMBRE'])` — recibe un **array**.
 
 ### Ejemplo del archivo `.env`
 
@@ -45,6 +46,11 @@ function requiredEnv(name) {
 module.exports = defineConfig({
   e2e: {
     baseUrl: requiredEnv('BASE_URL'),
+    setupNodeEvents(on, config) {
+      // Puente: pasa todo process.env (cargado por dotenv desde .env) a config.env
+      config.env = { ...config.env, ...process.env };
+      return config;
+    },
   },
 });
 ```
@@ -453,4 +459,95 @@ to.be.jsonSchema(schema): Valida que el objeto JSON cumple con el esquema especi
 </details>
 
 </details>
+</details>
+
+<details>
+<summary><h1>Faker JS</h1></summary>
+
+# ¿Qué es Faker JS?
+La librería __**`@faker-js/faker`*__ genera datos de prueba (mock) de forma aleatoria: nombres, emails, fechas, números, textos, géneros, entre otros. Sirve para armar bodies de requests, completar formularios o poblar datos sin escribirlos a mano.
+
+## Características Principales
+1. Datos Aleatorios: genera valores realistas y variados en cada corrida.
+2. Muchos tipos: personas, empresas, productos, música, números, fechas, textos, internet, etc.
+3. Integración con Cypress: se importa directamente en los specs.
+
+<details>
+<summary><h2>Instalar la librería</h2></summary>
+
+```bash
+npm install --save-dev @faker-js/faker
+```
+
+## Uso en los specs
+```js
+// En tu spec (o en el POM)
+import { faker } from '@faker-js/faker';
+
+const titulo = `Pelicula ${faker.word.adjective()} ${faker.word.noun()}`;
+```
+</details>
+
+<details>
+<summary><h2>Uso:</h2></summary>
+
+Una vez importada, usás sus métodos para construir el body de un request. Ejemplo: armar el body de un `POST /api/movies`.
+```js
+import { faker } from '@faker-js/faker';
+
+it('POST /api/movies con datos de faker', () => {
+  const body = {
+    title: `Pelicula ${faker.word.adjective()} ${faker.word.noun()}`,
+    director: faker.person.fullName(),
+    genre: faker.music.genre(),
+    release_year: faker.number.int({ min: 1980, max: 2026 }),
+    rental_price: faker.commerce.price({ min: 1, max: 99 }),
+    duration_minutes: faker.number.int({ min: 60, max: 240 }),
+  };
+
+  cy.request({ method: 'POST', url: 'https://be-testing-project.vercel.app/api/movies', body })
+    .then((res) => expect(res.status).to.eq(401));
+});
+```
+
+Métodos comunes
+
+| Método | Devuelve |
+| --- | --- |
+| `faker.word.adjective()` / `faker.word.noun()` | palabras sueltas |
+| `faker.person.fullName()` | nombre completo |
+| `faker.music.genre()` | género musical |
+| `faker.number.int({ min, max })` | entero en rango |
+| `faker.commerce.price({ min, max })` | precio con 2 decimales |
+
+> [!NOTA]
+> **faker vs fixture**: `faker` genera datos aleatorios en cada corrida (ideal para datos variados). Si necesitás datos fijos y deterministas, usá un fixture JSON con `cy.fixture('nombre.json')`.
+</details>
+</details>
+
+<details>
+
+<summary><h1>Otros Navegadores</h1></summary>
+Para instalar otros navegadores hay que instalar el paquete del navegador deseado. 
+Aqui esta el listado de otros navegadores y como instalarlos
+
+## Safari
+```js
+npm install --save-dev playwright-webkit
+```
+> (También puedes usar yarn add -D playwright-webkit, pnpm add -D playwright-webkit o bun add -d playwright-webkit).
+
+## Activar el soporte en la configuración:
+Agrega *experimentalWebKitSupport:* ***true***  en tu archivo de configuración (**cypress.config.js** o **cypress.config.ts**)
+
+### Ejemplo:
+```js
+const { defineConfig } = require('cypress');
+
+module.exports = defineConfig({
+  e2e: {
+    experimentalWebKitSupport: true,
+  },
+});
+```
 </details>

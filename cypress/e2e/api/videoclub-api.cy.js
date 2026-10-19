@@ -1,10 +1,15 @@
 /// <reference types="cypress" />
 
-// Validación de la API de películas del videoclub contra un JSON schema.
-// Endpoint público: GET {API_URL}/api/movies -> { success, data: [movie, ...] }
-describe('Video Club - API de películas (JSON schema)', () => {
-  // URL base del backend del videoclub (endpoint público, sin credenciales).
-  const API_URL = 'https://be-testing-project.vercel.app/api/movies';
+// Ejemplos de cada MÉTODO HTTP contra la API del videoclub (reales).
+// - GET             -> endpoint público, responde 200.
+// - POST/PUT/DELETE -> el backend exige token; sin token responde 401.
+//   Usamos failOnStatusCode: false y validamos ese 401.
+//   Para probarlos con datos reales: POST /api/auth/login y enviar el token
+//   en el header Authorization.
+// Nota: cy.intercept() NO intercepta peticiones de cy.request() (solo las de la app).
+describe('Video Club - API de películas (ejemplos por método)', () => {
+  const API = 'https://be-testing-project.vercel.app';
+  const MOVIES = `${API}/api/movies`;
 
   // Forma esperada de una película.
   const movieSchema = {
@@ -37,21 +42,70 @@ describe('Video Club - API de películas (JSON schema)', () => {
     },
   };
 
-  it('La respuesta de GET /api/movies cumple el JSON schema', () => {
-    cy.request(API_URL).then((response) => {
-      expect(response.status).to.eq(200);
-      expect(response.headers['content-type']).to.include('application/json');
-      expect(response.body).to.be.jsonSchema(responseSchema);
+  // ================= GET =================
+  describe('GET', () => {
+    it('GET /api/movies — listado público (real)', () => {
+      cy.request(MOVIES).then((res) => {
+        expect(res.status).to.eq(200);
+        expect(res.headers['content-type']).to.include('application/json');
+        expect(res.body.success).to.eq(true);
+        expect(res.body.data).to.be.an('array');
+      });
+    });
+
+    it('GET /api — documentación de la API (real)', () => {
+      cy.request(`${API}/api`).then((res) => {
+        expect(res.status).to.eq(200);
+        expect(res.body.name).to.eq('Video Club API');
+        expect(res.body.endpoints.movies).to.include('GET /api/movies');
+      });
+    });
+
+    it('GET /api/movies — respuesta cumple el JSON schema', () => {
+      cy.request(MOVIES).then((res) => {
+        expect(res.body).to.be.jsonSchema(responseSchema);
+      });
     });
   });
 
-  it('Cada película del catálogo cumple el schema individual', () => {
-    cy.request(API_URL).then((response) => {
-      expect(response.body.success).to.eq(true);
-      expect(response.body.data).to.be.an('array').and.not.be.empty;
+  // ================= POST =================
+  describe('POST', () => {
+    it('POST /api/movies — crear película (requiere token)', () => {
+      cy.request({
+        method: 'POST',
+        url: MOVIES,
+        failOnStatusCode: false,
+        body: { title: 'Cypress Movie', genre: 'Drama', rental_price: '5.00' },
+      }).then((res) => {
+        // Sin token, la API responde 401 (Unauthorized).
+        expect(res.status).to.eq(401);
+      });
+    });
+  });
 
-      response.body.data.forEach((movie) => {
-        expect(movie).to.be.jsonSchema(movieSchema);
+  // ================= PUT =================
+  describe('PUT', () => {
+    it('PUT /api/movies/:id — actualizar película (requiere token)', () => {
+      cy.request({
+        method: 'PUT',
+        url: `${MOVIES}/23`,
+        failOnStatusCode: false,
+        body: { title: 'Editada por Cypress' },
+      }).then((res) => {
+        expect(res.status).to.eq(401);
+      });
+    });
+  });
+
+  // ================= DELETE =================
+  describe('DELETE', () => {
+    it('DELETE /api/movies/:id — eliminar película (requiere token)', () => {
+      cy.request({
+        method: 'DELETE',
+        url: `${MOVIES}/23`,
+        failOnStatusCode: false,
+      }).then((res) => {
+        expect(res.status).to.eq(401);
       });
     });
   });

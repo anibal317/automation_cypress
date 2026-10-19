@@ -1,5 +1,5 @@
 const { defineConfig } = require("cypress");
-require('dotenv').config();
+require("dotenv").config();
 
 function requiredEnv(name) {
   const value = process.env[name];
@@ -12,10 +12,10 @@ function requiredEnv(name) {
 }
 
 module.exports = defineConfig({
-  reporter: 'cypress-mochawesome-reporter',
+  reporter: "cypress-mochawesome-reporter",
   reporterOptions: {
     charts: true,
-    reportPageTitle: 'ISFDyT 27 - Reporting',
+    reportPageTitle: "ISFDyT 27 - Reporting",
     embeddedScreenshots: true,
     inlineAssets: true,
     saveAllAttempts: false,
@@ -24,7 +24,7 @@ module.exports = defineConfig({
     reportFilename: `[name].html`,
     html: true,
     json: false,
-    timestamp: 'mm-dd-yyyy_HH-MM-ss'
+    timestamp: "mm-dd-yyyy_HH-MM-ss",
   },
   chromeWebSecurity: false,
   defaultCommandTimeout: 8000,
@@ -32,12 +32,14 @@ module.exports = defineConfig({
   log: false,
 
   e2e: {
-    baseUrl: requiredEnv('BASE_URL'),
+    baseUrl: requiredEnv("BASE_URL"),
+    experimentalWebKitSupport: true,
+
     setupNodeEvents(on, config) {
-      require('cypress-mochawesome-reporter/plugin')(on);
+      require("cypress-mochawesome-reporter/plugin")(on);
 
       // Permite imprimir en la terminal desde los specs: cy.task('log', mensaje)
-      on('task', {
+      on("task", {
         log(message) {
           console.log(message);
           return null;
@@ -51,17 +53,17 @@ module.exports = defineConfig({
       // @cypress/grep 7.x: el filtro se hace en el evento before:spec
       const grepTags = process.env.grepTags || config.expose?.grepTags;
       if (grepTags) {
-        on('before:spec', (spec) => {
+        on("before:spec", (spec) => {
           const tags = Array.isArray(grepTags) ? grepTags : [grepTags];
           // El filtro real lo hace registerCypressGrep() en e2e.js
           // Aquí solo logueamos qué spec se ejecuta
-          console.log(`[grep] Spec: ${spec.name} — tags: ${tags.join(', ')}`);
+          console.log(`[grep] Spec: ${spec.name} — tags: ${tags.join(", ")}`);
         });
       }
 
       return config;
     },
-    specPattern: 'cypress/e2e/**/*.cy.{js,ts}',
-    excludeSpecPattern: ['cypress/e2e/reference/**/*']
+    specPattern: "cypress/e2e/**/*.cy.{js,ts}",
+    excludeSpecPattern: ["cypress/e2e/reference/**/*"],
   },
 });
